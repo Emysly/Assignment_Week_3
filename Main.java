@@ -6,30 +6,30 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 
-		Properties propsProd = new Properties();
-		Properties propsDev = new Properties();
-		Properties propsStaging = new Properties();
+		Properties prodProps = new Properties();
+		Properties devProps = new Properties();
+		Properties stagingProps = new Properties();
 
 		//passed prod, dev and staging file to the configParser
-		ConfigParser configProd = new ConfigParser("config.txt");
-		ConfigParser configDev = new ConfigParser("config.txt.dev");
-		ConfigParser configStaging = new ConfigParser("config.txt.staging");
+		ConfigParser prodConfig = new ConfigParser("config.txt");
+		ConfigParser devConfig = new ConfigParser("config.txt.dev");
+		ConfigParser stagingConfig = new ConfigParser("config.txt.staging");
 
 		//read prod, dev and staging files
-		try (FileInputStream prod = new FileInputStream(configProd.getConfig());
-			 FileInputStream dev = new FileInputStream(configDev.getConfig());
-			 FileInputStream staging = new FileInputStream(configStaging.getConfig())
+		try (FileInputStream prod = new FileInputStream(prodConfig.getConfig());
+			 FileInputStream dev = new FileInputStream(devConfig.getConfig());
+			 FileInputStream staging = new FileInputStream(stagingConfig.getConfig())
 		) {
 
 
 			//loads the prod file
-		    propsProd.load(prod);
+		    prodProps.load(prod);
 
 			//loads the dev file
-			propsDev.load(dev);
+			devProps.load(dev);
 
 			//loads the staging file
-			propsStaging.load(staging);
+			stagingProps.load(staging);
 
 
 			Map<String, String> env = new LinkedHashMap<>();
@@ -39,20 +39,20 @@ public class Main {
 				//scans the input from command line args
 				switch (args[0]) {
 					case "production": {
-						env.put("dbName", propsProd.get("dbname").toString());
-						env.put("productionDbname", propsProd.get("name").toString());
+						env.put("dbName", prodProps.get("dbname").toString());
+						env.put("productionDbname", prodProps.get("name").toString());
 						System.out.println(env);
 						break;
 					}
 					case "development": {
-						env.put("dbName", propsDev.get("dbname").toString());
-						env.put("devDbname", propsDev.get("name").toString());
+						env.put("dbName", devProps.get("dbname").toString());
+						env.put("devDbname", devProps.get("name").toString());
 						System.out.println(env);
 						break;
 					}
 					case "staging": {
-						env.put("dbName", propsStaging.get("dbname").toString());
-						env.put("stagingDbname", propsStaging.get("name").toString());
+						env.put("dbName", stagingProps.get("dbname").toString());
+						env.put("stagingDbname", stagingProps.get("name").toString());
 						System.out.println(env);
 						break;
 					}
