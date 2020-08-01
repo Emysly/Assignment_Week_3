@@ -1,7 +1,7 @@
 
 public class ConfigParser {
 
-	String config;
+	private String config;
 
 	public ConfigParser(String config) {
 		this.config = config;

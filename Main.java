@@ -1,55 +1,67 @@
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
-	public static void main(String[] args) throws FileNotFoundException, IOException {
+	public static void main(String[] args) throws IOException {
 
 		Properties propsProd = new Properties();
 		Properties propsDev = new Properties();
 		Properties propsStaging = new Properties();
 
+		//passed prod, dev and staging file to the configParser
 		ConfigParser configProd = new ConfigParser("config.txt");
 		ConfigParser configDev = new ConfigParser("config.txt.dev");
 		ConfigParser configStaging = new ConfigParser("config.txt.staging");
-		
+
+		//read prod, dev and staging files
 		try (FileInputStream prod = new FileInputStream(configProd.getConfig());
 			 FileInputStream dev = new FileInputStream(configDev.getConfig());
 			 FileInputStream staging = new FileInputStream(configStaging.getConfig())
 		) {
 
+
 			//loads the prod file
 		    propsProd.load(prod);
+
+			//loads the dev file
 			propsDev.load(dev);
+
+			//loads the staging file
 			propsStaging.load(staging);
 
-		    //scans the input from the
-			Scanner scanner = new Scanner(System.in);
+
+			Map<String, String> env = new LinkedHashMap<>();
 
 			if (args.length != 0) {
-				switch (args[0]) {
-					case "prod" -> {
-						String dbName = propsProd.getProperty("dbname");
-						String prodDbname = propsProd.getProperty("name");
 
-						System.out.println(dbName + " " + prodDbname);
+				//scans the input from command line args
+				switch (args[0]) {
+					case "production": {
+						env.put("dbName", propsProd.get("dbname").toString());
+						env.put("productionDbname", propsProd.get("name").toString());
+						System.out.println(env);
+						break;
 					}
-					case "dev" -> System.out.println(propsDev.getProperty("mode"));
-					case "staging" -> System.out.println(propsStaging.getProperty("mode"));
+					case "development": {
+						env.put("dbName", propsDev.get("dbname").toString());
+						env.put("devDbname", propsDev.get("name").toString());
+						System.out.println(env);
+						break;
+					}
+					case "staging": {
+						env.put("dbName", propsStaging.get("dbname").toString());
+						env.put("stagingDbname", propsStaging.get("name").toString());
+						System.out.println(env);
+						break;
+					}
 				}
 			}
 
-			Map<String, String> env = new LinkedHashMap<>();
-			env.put("prod", propsProd.getProperty("dbname"));
-			env.put("dev", propsDev.getProperty("mode"));
-			env.put("staging", propsStaging.getProperty("mode"));
-			System.out.print(env.toString());
 		}
 	}
 
+
 }
+
