@@ -16,8 +16,8 @@ public class Main {
 		String prefix = "";
 
 		//checks if there is next line of characters and split where it
-		//founds '=' to have two words which forms an array and it also
-		// checks that the array is atleast 2 words, finally store it
+		//founds '=' character to have two words which forms an array and it also
+		// checks that the array is at least 2 words, finally store it
 		// in a map if the key does not exist in the map
 		while(scanner.hasNextLine()) {
 			arr = scanner.next().split("=");
@@ -36,37 +36,27 @@ public class Main {
 			if (arr[0].length() == 0) prefix = "";
 		}
 
-		//use the second map to map the properties of the config file that is stored in the first map
-		Map<String, String> env = new LinkedHashMap<>();
-
-		//add the values of the config map to env map
-		env.put("dbName", config.get("dbname"));
-		env.put("environmentDbname", config.get("application.name"));
-		System.out.println(env);
-
+		//gets the values of the config map
+		String dbName = config.get("dbname");
+		String environmentDbname = config.get("application.name");
+		System.out.println(dbName);
+		System.out.println(environmentDbname);
 	}
 	public static void main(String[] args) {
 
 		try {
 			//checks if an arg is provided from the terminal
 			if(args.length != 0) {
-
 				//scans the input from command line args
 				switch (args[0].toLowerCase()) {
-					case "development": {
-
+					case "development" ->
 						//if arg is development, pass the development file
 						configEnv("config.txt.dev");
-						break;
-					}
-					case "staging": {
 
+					case "staging" ->
 						//if arg is staging, pass the staging file
 						configEnv("config.txt.staging");
-						break;
-					}
 				}
-
 			}
 			else{
 				//without any arg pass the production file
