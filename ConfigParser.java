@@ -8,13 +8,12 @@ import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public class ConfigParser {
 
 	private String config;
 
-	private Map<String, String> env = new LinkedHashMap<>();
+	private final Map<String, String> env = new LinkedHashMap<>();
 
 	public ConfigParser(String config) {
 		this.config = config;
@@ -45,13 +44,14 @@ public class ConfigParser {
 
 	//a method that handles the environment implementations
 	public void configEnv(String fileName) throws IOException {
-		ConfigParser config = new ConfigParser(fileName);
+
+		final ConfigParser config = new ConfigParser(fileName);
 
 		//get the file path
-		Path path = Paths.get(config.getConfig());
+		final Path path = Paths.get(config.getConfig());
 
 		//add all lines to an array
-		List<String> strings = Files.readAllLines(path, StandardCharsets.UTF_8);
+		final List<String> strings = Files.readAllLines(path, StandardCharsets.UTF_8);
 
 		String[] arr;
 		String prefix = "";
@@ -78,8 +78,8 @@ public class ConfigParser {
 		System.out.println("You are currently in the " + config.get("mode") + " mode...");
 
 		//gets the values of the config map
-		String dbName = config.get("dbname");
-		String environmentDbname = config.get("application.name");
+		final String dbName = config.get("dbname");
+		final String environmentDbname = config.get("application.name");
 		System.out.println(dbName);
 		System.out.println(environmentDbname);
 	}
