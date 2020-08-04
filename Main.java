@@ -10,7 +10,7 @@ public class Main extends ConfigParser {
 	//a method that handles the environment implementations
 	public static void configEnv(String fileName, String mode) throws IOException {
 
-		fileName = fileName.replace(".txt", mode);
+		fileName = fileName.replace(".", mode);
 		//pass the file to the configparser
 		final ConfigParser config = new ConfigParser(fileName);
 
@@ -64,19 +64,19 @@ public class Main extends ConfigParser {
 					case "development" ->
 
 						//if arg is development, pass the development file
-						configEnv("config.txt", "-dev.txt");
+						configEnv("config.txt", "-dev.");
 
 					case "staging" ->
 
 						//if arg is staging, pass the staging file
-						configEnv("config.txt", "-staging.txt");
+						configEnv("config.txt", "-staging.");
 
 				}
 			}
 			else{
 
 				//without any arg pass the production file
-				configEnv("config.txt", ".txt");
+				configEnv("config.txt", ".");
 
 			}
 
