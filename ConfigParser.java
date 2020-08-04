@@ -1,6 +1,12 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -37,23 +43,24 @@ public class ConfigParser {
 				'}';
 	}
 
-	public void configEnv(String fileName) throws FileNotFoundException {
+	//a method that handles the environment implementations
+	public void configEnv(String fileName) throws IOException {
 		ConfigParser config = new ConfigParser(fileName);
 
-		// read development config file
-		File configFile = new File(config.getConfig());
-		Scanner scanner = new Scanner(configFile);
+		//get the file path
+		Path path = Paths.get(config.getConfig());
+
+		//add all lines to an array
+		List<String> strings = Files.readAllLines(path, StandardCharsets.UTF_8);
 
 		String[] arr;
 		String prefix = "";
 
-		//checks if there is next line of characters and split where it
-		//founds '=' character to have two words which forms an array and it also
-		// checks that the array is at least 2 words, finally store it
-		// in a map if the key does not exist in the map
-		while(scanner.hasNextLine()) {
-			arr = scanner.next().split("=");
-			if(arr.length > 1)
+		//loop through the array to print each line of string
+		for (String string : strings) {
+			arr = string.split("=");
+
+			if (arr.length > 1)
 				//puts if the key doesn't already exist in the map
 				config.getEnv().putIfAbsent(prefix + arr[0], arr[1]);
 
@@ -63,17 +70,18 @@ public class ConfigParser {
 				prefix = arr[0].substring(1, arr[0].length() - 1);
 				prefix += ".";
 			}
+
 			//if there is nothing in the array
 			if (arr[0].length() == 0) prefix = "";
 		}
 
-		System.out.println("You are currently in the " + config.get("application.mode") + " mode...");
+		System.out.println("You are currently in the " + config.get("mode") + " mode...");
+
 		//gets the values of the config map
 		String dbName = config.get("dbname");
 		String environmentDbname = config.get("application.name");
 		System.out.println(dbName);
 		System.out.println(environmentDbname);
-
 	}
 
 	public String get(String key) {
