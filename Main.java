@@ -71,6 +71,7 @@ public class Main extends ConfigParser {
 						//if arg is staging, pass the staging file
 						configEnv("config.txt", "-staging.");
 
+					default -> System.out.println("This mode does not exist");
 				}
 			}
 			else{
