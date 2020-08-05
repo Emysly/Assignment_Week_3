@@ -1,3 +1,5 @@
+import com.emysilva.classes.ConfigParser;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -60,7 +62,7 @@ public class Main extends ConfigParser {
 
 	public static void main(String[] args) {
 
-		String filename = "config.txt";
+		String filename = "com/emysilva/text_files/config.txt";
 		String environment = "";
 
 		try {

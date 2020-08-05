@@ -4,17 +4,17 @@ In an application, different configuration files could be used depending on the 
 
 You are to create a Java application that would parse and read values from config files. The data in configuration file should be accessed with the following syntax.
 
-ConfigParser config = new ConfigParser(“name_of_file”);
+com.emysilva.classes.ConfigParser config = new com.emysilva.classes.ConfigParser(“name_of_file”);
 
 Once your applications start, the config file(s) should be read and values based on the environment(production, development, staging) should be stored in a Map.
 
 Command Line arguments should be used to specify the environment in which the code would be executed in. Below is an illustration
 
-Production java Main.java
+Production java com.emysilva.classes.Main.java
 
-Staging java Main.java staging
+Staging java com.emysilva.classes.Main.java staging
 
-Development java Main.java development
+Development java com.emysilva.classes.Main.java development
 
 There should be a default name if a name of the file is not passed to the constructor.
 

@@ -1,3 +1,5 @@
+package com.emysilva.classes;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
