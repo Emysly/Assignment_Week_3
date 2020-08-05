@@ -8,10 +8,10 @@ import java.util.List;
 public class Main extends ConfigParser {
 
 	//a method that handles the environment implementations
-	public static void configEnv(String fileName, String mode) throws IOException {
+	public static void configEnv(String name_of_file, String mode) throws IOException {
 
 		//pass the file to the configparser
-		final ConfigParser config = new ConfigParser(fileName);
+		final ConfigParser config = new ConfigParser(name_of_file);
 
 		Path path;
 
