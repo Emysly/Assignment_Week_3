@@ -10,12 +10,18 @@ public class Main extends ConfigParser {
 	//a method that handles the environment implementations
 	public static void configEnv(String fileName, String mode) throws IOException {
 
-		fileName = fileName.replace(".", mode);
 		//pass the file to the configparser
 		final ConfigParser config = new ConfigParser(fileName);
 
-		//get the file path
-		final Path path = Paths.get(config.getFilename());
+		Path path;
+
+		if (mode.equals("")) {
+			path = Paths.get(config.getFilename());
+		} else {
+
+			//get the file path
+			path = Paths.get(config.getFilename().replace(".", "-" + mode + "."));
+		}
 
 		//add all lines to an array
 		final List<String> strings = Files.readAllLines(path, StandardCharsets.UTF_8);
@@ -53,6 +59,9 @@ public class Main extends ConfigParser {
 
 	public static void main(String[] args) {
 
+		String filename = "config.txt";
+		String environment = "";
+
 		try {
 
 			//checks if an arg is provided from the terminal
@@ -61,15 +70,19 @@ public class Main extends ConfigParser {
 				//scans the input from command line args
 				switch (args[0].toLowerCase()) {
 
-					case "development" ->
+					case "development" -> {
+						environment += args[0].toLowerCase();
 
 						//if arg is development, pass the development file
-						configEnv("config.txt", "-dev.");
+						configEnv(filename, environment);
+					}
 
-					case "staging" ->
+					case "staging" -> {
+						environment += args[0].toLowerCase();
 
 						//if arg is staging, pass the staging file
-						configEnv("config.txt", "-staging.");
+						configEnv(filename, environment);
+					}
 
 					default -> System.out.println("This mode does not exist");
 				}
@@ -77,7 +90,7 @@ public class Main extends ConfigParser {
 			else{
 
 				//without any arg pass the production file
-				configEnv("config.txt", ".");
+				configEnv(filename, environment);
 
 			}
 
