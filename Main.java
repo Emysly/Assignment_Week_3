@@ -15,15 +15,16 @@ public class Main extends ConfigParser {
 
 		Path path;
 
+		//get the file path for production
 		if (mode.equals("")) {
 			path = Paths.get(config.getFilename());
 		} else {
 
-			//get the file path
+			//get the file path for development and staging
 			path = Paths.get(config.getFilename().replace(".", "-" + mode + "."));
 		}
 
-		//add all lines to an array
+		//add all lines read from the config file to an array
 		final List<String> strings = Files.readAllLines(path, StandardCharsets.UTF_8);
 
 		String[] arr;
@@ -70,17 +71,10 @@ public class Main extends ConfigParser {
 				//scans the input from command line args
 				switch (args[0].toLowerCase()) {
 
-					case "development" -> {
+					case "development", "staging" -> {
 						environment += args[0].toLowerCase();
 
-						//if arg is development, pass the development file
-						configEnv(filename, environment);
-					}
-
-					case "staging" -> {
-						environment += args[0].toLowerCase();
-
-						//if arg is staging, pass the staging file
+						//if arg is development or staging and then pass the appropriate file
 						configEnv(filename, environment);
 					}
 
